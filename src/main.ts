@@ -3,23 +3,20 @@ import { AppModule } from './app.module';
 import { setupSwagger } from './shares/helpers/swagger.helper';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './shares/filters/http-exception.filter';
-import {
-  APP_VERSION,
-  PORT,
-  SERVER_URL,
-} from './shares/constants/environment.constant';
+import { SuccessResponseInterceptor } from './shares/interceptors/success-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const globalPrefix = `api/${APP_VERSION}`;
+  const globalPrefix = `api/${process.env.APP_VERSION}`;
 
+  app.useGlobalInterceptors(new SuccessResponseInterceptor());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.useGlobalFilters(new HttpExceptionFilter());
   app.setGlobalPrefix(globalPrefix);
 
-  setupSwagger(app, SERVER_URL);
+  setupSwagger(app, process.env.SERVER_URL);
 
-  await app.listen(PORT);
+  await app.listen(process.env.PORT);
 }
 
 bootstrap();

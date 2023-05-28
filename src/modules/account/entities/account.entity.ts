@@ -1,7 +1,7 @@
 import { BaseEntity } from 'src/modules/typeorm/base-entity';
 import { BeforeInsert, Column, Entity, ObjectIdColumn } from 'typeorm';
-import { AccountRoleEnum } from '../dto/createAccount.dto';
 import { validate } from 'class-validator';
+import { AccountRoleEnum } from 'src/shares/constants/enum.constant';
 
 @Entity('account')
 export class Account extends BaseEntity {
@@ -15,7 +15,7 @@ export class Account extends BaseEntity {
   hashPassword: string;
 
   @Column({ enum: AccountRoleEnum })
-  role: string;
+  role: AccountRoleEnum;
 
   @Column()
   isActive: boolean;

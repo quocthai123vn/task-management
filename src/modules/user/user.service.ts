@@ -1,11 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { UserNotExistsException } from 'src/shares/exceptions/user.exception';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './entities/user.entity';
 
 Injectable();
 export class UserService {
-  constructor() {}
-  getUser() {
-    throw new UserNotExistsException('123');  
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+  ) {}
+  async createUser(createUserDto: CreateUserDto) {
+    const user = this.userRepository.create(createUserDto);
+    return await this.userRepository.save(user);
   }
 }
- 

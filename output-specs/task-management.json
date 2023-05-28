@@ -1,20 +1,137 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/api/v1/user/getUser": {
-      "get": {
-        "operationId": "UserController_getUser",
+    "/api/v1/account/admin/init": {
+      "post": {
+        "operationId": "createAdminAccount",
+        "summary": "",
+        "description": "Create admin account",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitAdminDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Create account successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InitAdminDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
-        }
+        },
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/api/v1/account/admin/verify": {
+      "post": {
+        "operationId": "verifyAdminAccount",
+        "summary": "",
+        "description": "Verify admin account",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verify admin account successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyAdminDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Account"
+        ]
       }
     },
     "/api/v1/account/create": {
       "post": {
-        "operationId": "AccountController_getUser",
+        "operationId": "createAccount",
+        "summary": "",
+        "description": "Create account",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -27,10 +144,325 @@
           }
         },
         "responses": {
-          "201": {
-            "description": ""
+          "200": {
+            "description": "Create account successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAccountDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
           }
-        }
+        },
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/api/v1/account/signIn": {
+      "post": {
+        "operationId": "signIn",
+        "summary": "",
+        "description": "SignIn",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "SignIn successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignInDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/api/v1/account/password/forgot": {
+      "post": {
+        "operationId": "forgotPassword",
+        "summary": "",
+        "description": "Forgot Password",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Forgot Password successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InitAdminDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/api/v1/account/password/reset": {
+      "post": {
+        "operationId": "resetPassword",
+        "summary": "",
+        "description": "Reset password",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Reset password successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResetPasswordDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Account"
+        ]
+      }
+    },
+    "/api/v1/otp/send": {
+      "post": {
+        "operationId": "sendOtp",
+        "summary": "",
+        "description": "Send OTP to mail or phone number",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendOtpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Send OTP successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendOtpDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "OTP"
+        ]
+      }
+    },
+    "/api/v1/otp/verify": {
+      "post": {
+        "operationId": "verifyOtp",
+        "summary": "",
+        "description": "Verify OTP successfully",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyOtpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "OTP"
+        ]
       }
     }
   },
@@ -40,7 +472,20 @@
     "version": "1.0",
     "contact": {}
   },
-  "tags": [],
+  "tags": [
+    {
+      "name": "Account",
+      "description": ""
+    },
+    {
+      "name": "OTP",
+      "description": ""
+    },
+    {
+      "name": "User",
+      "description": ""
+    }
+  ],
   "servers": [
     {
       "url": "http://localhost:3000"
@@ -59,9 +504,149 @@
       }
     },
     "schemas": {
+      "InitAdminDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "abc@gmail.com"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "number"
+          },
+          "message": {
+            "type": "string",
+            "example": "Error message",
+            "default": "Internal Server Error"
+          },
+          "name": {
+            "type": "string",
+            "example": "Error"
+          }
+        }
+      },
+      "VerifyAdminDto": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "password",
+            "example": "alo123"
+          },
+          "otp": {
+            "type": "string",
+            "description": "OTP",
+            "example": "123456"
+          }
+        },
+        "required": [
+          "password",
+          "otp"
+        ]
+      },
       "CreateAccountDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "abc@gmail.com"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role: admin or user",
+            "example": "admin"
+          }
+        },
+        "required": [
+          "email",
+          "role"
+        ]
+      },
+      "SignInDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "abc@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password",
+            "example": "123456"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email",
+            "example": "abc@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "password",
+            "example": "alo123"
+          },
+          "otp": {
+            "type": "string",
+            "description": "OTP",
+            "example": "123456"
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "otp"
+        ]
+      },
+      "SendOtpDto": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "type": "string",
+            "description": "Email",
+            "default": "nguyenvana@gmail.com"
+          }
+        },
+        "required": [
+          "contact"
+        ]
+      },
+      "VerifyOtpDto": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "type": "string",
+            "description": "email",
+            "default": "nguyenvana@gmail.com"
+          },
+          "otp": {
+            "type": "string",
+            "description": "OTP",
+            "default": "123456"
+          }
+        },
+        "required": [
+          "contact",
+          "otp"
+        ]
       }
     }
   }

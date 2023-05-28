@@ -4,8 +4,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigurationModule } from './modules/configuration/configuration.module';
 import { dataSourceOptions } from './modules/typeorm/datasource';
 import { AccountModule } from './modules/account/account.module';
+import { MailModule } from './modules/mail/mail.module';
+import { OtpModule } from './modules/otp/otp.module';
 
-export const modules = [ConfigurationModule, UserModule, AccountModule];
+export const modules = [
+  ConfigurationModule,
+  UserModule,
+  AccountModule,
+  MailModule,
+  OtpModule,
+];
 @Module({
   imports: [...modules, TypeOrmModule.forRoot(dataSourceOptions)],
   controllers: [],
