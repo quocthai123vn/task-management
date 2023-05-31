@@ -1,25 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAccountDto } from './dto/create-account.dto';
-import { Account } from './entities/account.entity';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { ConfigurationService } from '../configuration/configuration.service';
-import { InitAdminDto } from './dto/init-admin.dto';
+import { AccountRoleEnum, Position } from 'src/shares/constants/enum.constant';
+import { JWT_CONSTANTS } from 'src/shares/constants/jwt.constant';
 import {
   AccountInactive,
   EmailAdminInvalid,
   EmailNotFound,
   PasswordInvalid,
 } from 'src/shares/exceptions/account.exception';
-import { OtpService } from '../otp/otp.service';
-import { VerifyAdminDto } from './dto/verify-admin.dto';
 import { hashString, isHashEqual } from 'src/shares/helpers/hash.helper';
-import { SignInDto } from './dto/sign-in.dto';
-import { AccountRoleEnum, Position } from 'src/shares/constants/enum.constant';
+import { Repository } from 'typeorm';
+import { ConfigurationService } from '../configuration/configuration.service';
+import { OtpService } from '../otp/otp.service';
 import { UserService } from '../user/user.service';
-import { JwtService } from '@nestjs/jwt';
-import { JWT_CONSTANTS } from 'src/shares/constants/jwt.constant';
-import { ResetPasswordDto } from './dto/reset-password.dto';
+import { CreateAccountDto } from './dto/create-account.dto';
+import { ActiveAccountDto } from './dto/inactive-account.dto';
+import { InitAdminDto } from './dto/init-admin.dto';
+import { SetPasswordDto } from './dto/set-password.dto';
+import { SignInDto } from './dto/sign-in.dto';
+import { VerifyAdminDto } from './dto/verify-admin.dto';
+import { Account } from './entities/account.entity';
 
 Injectable();
 export class AccountService {
@@ -32,7 +33,7 @@ export class AccountService {
     private readonly otpService: OtpService,
     private readonly jwtService: JwtService,
   ) {
-    const admin = this.configurationService.getAdminEmail();
+    this.admin = this.configurationService.getAdminEmail();
   }
 
   async initAdminAccount(initAdminDto: InitAdminDto) {
@@ -68,8 +69,16 @@ export class AccountService {
   }
 
   async createAccount(createAccountDto: CreateAccountDto) {
+    const { email, firstName, lastName, position } = createAccountDto;
     const account = this.accountRepository.create(createAccountDto);
-    return this.accountRepository.save(account);
+    await this.userService.createUser({
+      firstName,
+      lastName,
+      position,
+      accountId: account._id,
+    });
+    await this.otpService.sendOtp({ contact: email });
+    return await this.accountRepository.save(account);
   }
 
   async signIn(signInDto: SignInDto) {
@@ -87,9 +96,11 @@ export class AccountService {
     if (!checkPassword) {
       throw new PasswordInvalid();
     }
+    const user = await this.userService.findUserByAccountId(account._id);
     const payload = {
       accountId: account._id,
       role: account.role,
+      userId: user._id,
     };
     const token = this.jwtService.signAsync(payload, {
       expiresIn: JWT_CONSTANTS.signOptions.expiresIn,
@@ -110,8 +121,8 @@ export class AccountService {
     await this.otpService.sendOtp({ contact });
   }
 
-  async resetPassword(resetPasswordDto: ResetPasswordDto) {
-    const { email, otp, password } = resetPasswordDto;
+  async setPassword(setPasswordDto: SetPasswordDto) {
+    const { email, otp, password } = setPasswordDto;
     await this.otpService.verifyOtp({
       contact: email,
       otp,
@@ -124,5 +135,15 @@ export class AccountService {
       },
     );
     return account;
+  }
+
+  async activeAccount(activeAccountDto: ActiveAccountDto) {
+    const { accountId, isActive } = activeAccountDto;
+    await this.accountRepository.update({ _id: accountId }, { isActive });
+  }
+
+  async getAllUserEmails(): Promise<string[]> {
+    const accounts = await this.accountRepository.find();
+    return accounts.map((account) => account.email);
   }
 }

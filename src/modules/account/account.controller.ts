@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpStatus,
   Post,
   SetMetadata,
@@ -14,7 +15,7 @@ import { InitAdminDto } from './dto/init-admin.dto';
 import { VerifyAdminDto } from './dto/verify-admin.dto';
 import { AuthGuard } from './account.guard';
 import { SignInDto } from './dto/sign-in.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
+import { SetPasswordDto } from './dto/set-password.dto';
 @ApiTags('Account')
 @Controller('account')
 export class AccountController {
@@ -98,17 +99,31 @@ export class AccountController {
   }
 
   @ApiOperation({
-    operationId: 'resetPassword',
-    description: 'Reset password',
+    operationId: 'setPassword',
+    description: 'Set password',
   })
   @ApiResponse({
-    type: ResetPasswordDto,
+    type: SetPasswordDto,
     status: HttpStatus.OK,
-    description: 'Reset password successfully',
+    description: 'Set password successfully',
   })
   @CommonErrorResponses()
-  @Post('password/reset')
-  async resetPassword(resetPasswordDto: ResetPasswordDto) {
-    return await this.accountService.resetPassword(resetPasswordDto);
+  @Post('password/set')
+  async resetPassword(setPasswordDto: SetPasswordDto) {
+    return await this.accountService.setPassword(setPasswordDto);
+  }
+
+  @ApiOperation({
+    operationId: 'getEmail',
+    description: 'Get email',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Get email successfully',
+  })
+  @CommonErrorResponses()
+  @Get('email')
+  async getAllEmail() {
+    return await this.accountService.getAllUserEmails();
   }
 }
