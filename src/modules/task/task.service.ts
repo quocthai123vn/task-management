@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './entities/task.entity';
+import { QueryTaskDto } from './dto/query-task.dto';
 
 @Injectable()
 export class TaskService {
@@ -30,5 +31,18 @@ export class TaskService {
       updatedFields,
     );
     return task;
+  }
+
+  async queryTask(queryTaskDto: QueryTaskDto) {
+    const queryFields: Partial<QueryTaskDto> = {};
+
+    for (const [key, value] of Object.entries(queryTaskDto)) {
+      if (value !== undefined && value.trim() !== '') {
+        queryFields[key] = value.trim();
+      }
+    }
+
+    const tasks = await this.taskRepository.find({ where: queryFields });
+    return tasks;
   }
 }

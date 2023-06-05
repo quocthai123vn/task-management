@@ -17,10 +17,14 @@ export class Task extends BaseEntity {
   assignTo: string;
 
   @Column()
+  priority: number;
+
+  @Column()
   status: TaskStatus;
 
   constructor() {
     super();
     this.status = TaskStatus.new;
+    this.priority = 0;
   }
 }

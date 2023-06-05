@@ -6,6 +6,7 @@ import { dataSourceOptions } from './modules/typeorm/datasource';
 import { AccountModule } from './modules/account/account.module';
 import { MailModule } from './modules/mail/mail.module';
 import { OtpModule } from './modules/otp/otp.module';
+import { TaskModule } from './modules/task/task.module';
 
 export const modules = [
   ConfigurationModule,
@@ -13,6 +14,7 @@ export const modules = [
   AccountModule,
   MailModule,
   OtpModule,
+  TaskModule,
 ];
 @Module({
   imports: [...modules, TypeOrmModule.forRoot(dataSourceOptions)],
