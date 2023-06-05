@@ -46,7 +46,7 @@ export class UserController {
     description: 'Get profile successfully',
   })
   @CommonErrorResponses()
-  @Put('profile')
+  @Get('profile')
   async getProfile(@Req() req: any) {
     const user = req.user;
     return await this.userService.findUserByAccountId(user.userId);

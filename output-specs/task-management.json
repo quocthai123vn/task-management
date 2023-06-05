@@ -65,7 +65,7 @@
       }
     },
     "/api/v1/user/profile": {
-      "put": {
+      "get": {
         "operationId": "getProfile",
         "summary": "",
         "description": "Get profile",
